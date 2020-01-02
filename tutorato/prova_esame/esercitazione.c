@@ -9,7 +9,7 @@ typedef char parola[MAX_CAR+1];
 /*PROTOTIPI DELLE FUNZIONI */
 parola *leggi_file(FILE *f, int *n);
 int max_vocali(parola *elenco, int n);
-int conta_caratteri(char *parola, char *caratteri da conteggiare);
+int conta_caratteri(char *parola, char *caratteri_da_conteggiare);
 
 int main(int argc, const char *argv[])
 {
@@ -47,15 +47,24 @@ parola *leggi_file(FILE *f, int *n){
 int max_vocali(parola *elenco, int n){
     int i,num_voc,max=0;
     for(i=0;i<n;i++){
-        num_voc=conta_caratteri(elenco[i],'aeiou');
+        num_voc=conta_caratteri(elenco[i],"aeiou");
         if(num_voc>max){
             max=num_voc;
         }
     }
+    return max;
 }
 
 int conta_caratteri(char *parola, char *caratteri_da_conteggiare){
     int i,j,len,count=0;
-    int num_caratteri=strnlen(caratteri_da_conteggiare);
-    
+    int num_caratteri=strlen(caratteri_da_conteggiare);
+
+    len=strlen(parola);
+    for(i=0;i<len;i++){
+        for(j=0;j<num_caratteri;j++){
+            if(parola[i]==caratteri_da_conteggiare[j])
+            count++;
+        }
+    }
+    return count;
 }
