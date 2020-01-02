@@ -1,0 +1,123 @@
+############################################################
+# Dati di test per il programma di calcolo della potenza 
+# "a elevato alla b", con b intero e a frazionario.
+############################################################
+
+[.TEST]
+Esempio nel testo
+
+[.INPUT]
+2.5
+3
+
+[POTENZA]
+15.625
+
+############################################################
+
+[.TEST]
+Esponente unitario
+
+[.INPUT]
+3.14
+1
+
+[POTENZA]
+3.14
+
+############################################################
+
+[.TEST]
+Due alla decima
+
+[.INPUT]
+2
+10
+
+[POTENZA]
+1024.0
+
+
+############################################################
+
+[.TEST]
+Base negativa
+
+[.INPUT]
+-10
+5
+
+[POTENZA]
+-100000.0
+
+############################################################
+
+[.TEST]
+Esponente negativo
+
+[.INPUT]
+10
+-3
+
+[POTENZA]
+non calcolabile
+
+############################################################
+
+[.TEST]
+Uno alla prima.
+
+[.INPUT]
+1
+1
+
+[POTENZA]
+1.0
+
+############################################################
+
+[.TEST]
+Base nulla
+
+[.INPUT]
+0
+27
+
+[POTENZA]
+0.0
+
+############################################################
+
+[.TEST]
+Esponente nullo
+
+[.INPUT]
+27
+0
+
+[POTENZA]
+1.0
+
+############################################################
+
+[.TEST]
+Base nulla ed esponente negativo
+
+[.INPUT]
+0
+-5
+
+[POTENZA]
+non calcolabile
+
+############################################################
+
+[.TEST]
+Forma indeterminata "0 alla 0"
+
+[.INPUT]
+0
+0
+
+[POTENZA]
+non calcolabile

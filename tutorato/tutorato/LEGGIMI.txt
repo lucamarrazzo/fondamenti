@@ -1,0 +1,2 @@
+Le istruzioni complete per ogni tutorato sono disponibili all'indirizzo http://robot.unipv.it/tutorati-fdi/ .
+Per ogni tutorato, il file LEGGIMI.txt contiene l'indirizzo a cui reperire il testo.

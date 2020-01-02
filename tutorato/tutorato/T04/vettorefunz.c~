@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define Nmax 100
+#define Vmax 30
+#define Vmin 18
+#define Voti 13
+
+void leggi_voti(int vet[]);
+void stampa_voti(int vet[],int n);
+
+int main()
+{
+   int max,min,v,n;
+   int vet[Nmax];
+   int freq[Voti];
+    
+  leggi_voti(vet);       
+  stampa_voti(vet,n);    
+  
+  
+  
+  return 0;
+}
+
+void leggi_voti(int vet[])
+{
+    char s[80];
+    int i=0,v,n;
+    
+   printf("inserire un numero: \n");
+   fgets(s,sizeof (s),stdin);
+   n=atoi(s);
+   
+   if(n<=0 || n>100){
+       
+       printf("[RISULTATO]\n");
+       printf("errore");
+   }
+    //inserimento voti
+  while(i<n){
+      
+        printf("inserire il voto: \n");
+        fgets(s,sizeof (s),stdin);
+        v=atoi(s);
+  //controllo validita 
+        if(v>=Vmin && v<=Vmax){
+            vet[i]=v;
+            i++;       
+        }       
+    }
+}
+
+void stampa_voti(int vet[],int n){
+    
+    int i=0;
+    
+    printf("[VALORI]\n");
+    for (i = 0; i < n; i++)
+    printf("%d\n", vet[i]);
+}
+
+
+
+
+
