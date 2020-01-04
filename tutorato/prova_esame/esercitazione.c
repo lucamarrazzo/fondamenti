@@ -13,7 +13,11 @@ int conta_caratteri(char *parola, char *caratteri_da_conteggiare);
 void stampa_parole(parola *elenco, int n);
 int palindromo(char *parola);
 int conta_palindromi(parola *elenco,int n);
-
+int lettera_da_filtrare(char carattere);
+char *filtra_parola(char *parola);
+void stampa_parole_filtrate_in_intervallo(parola *elenco, int a, int b);
+void stampa_filtrate(parola *elenco, int n);
+int duplicati_presenti(parola *elenco, int n);
 
 int main(int argc, const char *argv[])
 {
@@ -34,7 +38,13 @@ int main(int argc, const char *argv[])
     stampa_parole(elenco, n);
     printf("\n [MAX-VOCALI] %d \n", max_vocali(elenco, n));
     printf("\n [PALINDROMI] %d \n", conta_palindromi(elenco, n));
-
+    puts("\n[FILTRO]");
+	stampa_filtrate(elenco, n);
+    puts("\n[DUPLICATI]");
+	if (duplicati_presenti(elenco, n))
+		puts("SI");
+	else
+		puts("NO");
 }
 
 
@@ -122,7 +132,7 @@ int lettera_da_filtrare(char carattere){
 
     char lettere[] = {"abcde"};
     int i;
-    int len=strlen(lettere-1);
+    int len=sizeof(lettere-1);
 
     for(i=0;i<len;i++){
         if(carattere==lettere[i])
@@ -145,5 +155,50 @@ char *filtra_parola(char *parola){
             indice_lettera++;
         }
     }
+    parola_filtrata[indice_lettera]='\0';
+    return parola_filtrata;
+}
 
+void stampa_parole_filtrate_in_intervallo(parola *elenco, int a, int b)
+{
+	char *p;
+	int i;
+	for (i = a; i < b; i++) {
+		p = filtra_parola(elenco[i]);
+		if (strlen(p) > 0) {
+			puts(p);
+			free(p);
+		}
+	}
+}
+/*
+ * Stampa le prime 4 e le ultime 4 parole filtrate.
+ * Se le parole sono meno di 8 in totale, le stampa tutte.
+ */
+void stampa_filtrate(parola *elenco, int n)
+{
+	if (n <= 8) {
+		/* Stampa tutte le parole */
+		stampa_parole_filtrate_in_intervallo(elenco, 0, n);
+	} else {
+		/* Stampa le prime e le ultime 4 parole */
+		stampa_parole_filtrate_in_intervallo(elenco, 0, 4);
+		stampa_parole_filtrate_in_intervallo(elenco, n - 4, n);
+	}
+}
+
+int duplicati_presenti(parola *elenco, int n){
+    int i,j;
+
+    if(n<=1){
+        return 1;
+    }
+    for(i=0;i<n-1;i++){
+        for(j=i+1;j<n;j++){
+            if(strcmp(elenco[i],elenco[j])==0){
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
