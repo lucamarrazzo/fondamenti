@@ -117,3 +117,33 @@ int conta_palindromi(parola *elenco, int n){
     }
     return count;
 }
+
+int lettera_da_filtrare(char carattere){
+
+    char lettere[] = {"abcde"};
+    int i;
+    int len=strlen(lettere-1);
+
+    for(i=0;i<len;i++){
+        if(carattere==lettere[i])
+        return 1;
+    }
+    return 0;
+
+}
+
+char *filtra_parola(char *parola){
+
+    char *parola_filtrata=malloc(MAX_CAR * sizeof(char));
+    int i,len,indice_lettera=0;
+
+    len=strlen(parola);
+
+    for(i=0;i<len;i++){
+        if(!lettera_da_filtrare(parola[i])){
+            parola_filtrata[indice_lettera]=parola[i];
+            indice_lettera++;
+        }
+    }
+
+}
