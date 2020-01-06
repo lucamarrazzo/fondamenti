@@ -18,6 +18,8 @@ char *filtra_parola(char *parola);
 void stampa_parole_filtrate_in_intervallo(parola *elenco, int a, int b);
 void stampa_filtrate(parola *elenco, int n);
 int duplicati_presenti(parola *elenco, int n);
+int cmp_parole(const void *p1, const void *p2);
+
 
 int main(int argc, const char *argv[])
 {
@@ -45,6 +47,13 @@ int main(int argc, const char *argv[])
 		puts("SI");
 	else
 		puts("NO");
+    /* Ordinamento */
+	puts("\n[ORDINAMENTO]");
+	qsort(elenco, n, sizeof(*elenco), cmp_parole);
+    stampa_parole(elenco, n);
+    
+    free(elenco);
+    fclose(f);
 }
 
 
@@ -201,4 +210,14 @@ int duplicati_presenti(parola *elenco, int n){
         }
     }
     return 0;
+}
+
+/*
+ * Funzione di confronto tra stringhe.
+ */
+int cmp_parole(const void *p1, const void *p2)
+{
+	const char *u1 = p1;
+	const char *u2 = p2;
+	return strcmp(u1, u2);
 }
