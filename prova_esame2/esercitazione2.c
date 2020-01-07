@@ -12,7 +12,13 @@ struct partita{
 struct partita *leggi_file(FILE *f,int *n);
 void stampa_partite(struct partita *partite, int n);
 int non_validi(struct partita *partite, int n);
-
+void xeo(struct partita *partite, int n);
+int corrette(struct partita *partite, int n);
+int tris_riga(struct partita *p, int gioc);
+int tris_colonna(struct partita *p, int gioc);
+int tris_diag_1(struct partita *p, int gioc);
+int tris_diag_2(struct partita *p, int gioc);
+int vittorie_x(struct partita *partite, int n);
 
 int main(int argc, const char *argv[]){
     FILE *f;
@@ -29,8 +35,13 @@ int main(int argc, const char *argv[]){
     }
     // richiamo le funzioni del programma
     partite = leggi_file(f, &n);
+    c=corrette(partite,n);
+
     printf("\n[PARTITE]\n%d\n", n);
     //stampa_partite(partite, n);
+    printf("\n[XEO]\n");
+    xeo(partite,n);
+    printf("\n[CORRETTE]\n %d\n",c);
 }
 
 
@@ -96,4 +107,43 @@ int non_validi(struct partita *partite, int n){
         }
     }
     return nv;
+}
+
+void xeo(struct partita *partite, int n){
+    int i,j,k,len;
+    int sx=0, so=0;
+
+    for(i=0;i<n;i++){
+        for(j=0;j<3;j++){
+            len=strlen(partite[i].riga[j])-1;
+            for(k=0;k<len;k++){
+                if(partite[i].riga[j][k]=='x')sx++;
+                if(partite[i].riga[j][k]=='o')so++;
+
+            }
+        }
+    }
+    printf("%d\n%d\n",sx/n, so/n);
+}
+
+int corrette(struct partita *partite, int n){
+    int i, c=0;
+    for(i=0;i<n;i++){
+        if(partite[i].nv==0)
+        c++;
+    }
+    return c;
+}
+
+int tris_riga(struct partita *p, int gioc){
+    int i,riga,count;
+    for(riga=0;riga<3;riga++){
+        count=0;
+        for(i=0;i<3;i++){
+            if(p->riga[riga][i]==gioc)
+            count++;
+            if(count==3)
+            return 1;
+        }
+    }
 }
