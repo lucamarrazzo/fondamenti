@@ -19,6 +19,8 @@ int tris_colonna(struct partita *p, int gioc);
 int tris_diag_1(struct partita *p, int gioc);
 int tris_diag_2(struct partita *p, int gioc);
 int vittorie_x(struct partita *partite, int n);
+int cmp_parole(const void *p1, const void *p2);
+
 
 int main(int argc, const char *argv[]){
     FILE *f;
@@ -45,6 +47,9 @@ int main(int argc, const char *argv[]){
     xeo(partite,n);
     printf("\n[CORRETTE]\n %d\n",c);
     printf("\n[VITTORIE-X]\n %d\n",v);
+    puts("\n[ORDINAMENTO]");
+	qsort(partite, n, sizeof(*partite), cmp_parole);
+	stampa_partite(partite, n);
 
 }
 
@@ -201,4 +206,11 @@ int vittorie_x(struct partita *partite, int n){
         }
     }
     return vittorie;
+}
+
+int cmp_parole(const void *p1, const void *p2)
+{
+	const char *u1 = p1;
+	const char *u2 = p2;
+	return strcmp(u1, u2);
 }
