@@ -36,12 +36,16 @@ int main(int argc, const char *argv[]){
     // richiamo le funzioni del programma
     partite = leggi_file(f, &n);
     c=corrette(partite,n);
-
+    v=vittorie_x(partite, n);
+    nv=non_validi(partite, n);
     printf("\n[PARTITE]\n%d\n", n);
     //stampa_partite(partite, n);
+    printf("\n[NON-VALIDI]\n%d\n", nv);
     printf("\n[XEO]\n");
     xeo(partite,n);
     printf("\n[CORRETTE]\n %d\n",c);
+    printf("\n[VITTORIE-X]\n %d\n",v);
+
 }
 
 
@@ -141,9 +145,60 @@ int tris_riga(struct partita *p, int gioc){
         count=0;
         for(i=0;i<3;i++){
             if(p->riga[riga][i]==gioc)
-            count++;
+                count++;
+            if(count==3)
+                return 1;
+        }
+    }
+    return 0;
+}
+
+int tris_colonna(struct partita *p, int gioc){
+    int i,colonna,count;
+    for(colonna=0;colonna<3;colonna++){
+        count=0;
+        for(i=0;i<3;i++){
+            if(p->riga[i][colonna]==gioc)
+                count++;
             if(count==3)
             return 1;
         }
     }
+    return 0;
+}
+
+int tris_diag_1(struct partita *p, int gioc){
+    int i, count;
+    for(i=0;i<3;i++){
+        if(p->riga[i][i]==gioc)
+            count++;
+        if(count==3)return 1;
+    }
+    return 0;
+}
+
+int tris_diag_2(struct partita *p, int gioc){
+    int i, count;
+
+    for(i=0;i<3;i++){
+        if(p->riga[i][2-i]==gioc)
+            count++;
+        if(count==3)return 1;
+    }
+    return 0;
+
+}
+
+int vittorie_x(struct partita *partite, int n){
+    int i,vittorie=0;
+    for(i=0;i<n;i++){
+        if(partite[i].nv!=0)continue;
+        if (tris_riga(&partite[i], 'x')||
+            tris_colonna(&partite[i], 'x')||
+            tris_diag_1(&partite[i], 'x')||
+            tris_diag_2(&partite[i], 'x')){
+                vittorie++;
+        }
+    }
+    return vittorie;
 }
