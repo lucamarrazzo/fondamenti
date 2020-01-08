@@ -80,7 +80,7 @@ int relazione(struct cerchio *c1, struct cerchio *c2){
     if(sd<=(c1->r + c2->r)){
         if ( c1->x == c2->x && c1->y == c2->y && c1->r == c2->r ){
             rel = COINCIDE;
-    } else if ( sd >= abs(c1->r - c2->r) ) {
+    } else if ( sd >= (c1->r - c2->r) ) {
             rel = INTERSECA;
     }else if ( c1->r > c2->r) {
             rel = CONTIENE;
