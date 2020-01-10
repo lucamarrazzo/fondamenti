@@ -19,8 +19,8 @@ int tris_colonna(struct partita *p, int gioc);
 int tris_diag_1(struct partita *p, int gioc);
 int tris_diag_2(struct partita *p, int gioc);
 int vittorie_x(struct partita *partite, int n);
-int cmp_parole(const void *p1, const void *p2);
-
+int confronto(const void *p1, const void *p2);
+void stampa_righe_ordinate(struct partita *partite, int n);
 
 int main(int argc, const char *argv[]){
     FILE *f;
@@ -48,9 +48,10 @@ int main(int argc, const char *argv[]){
     printf("\n[CORRETTE]\n %d\n",c);
     printf("\n[VITTORIE-X]\n %d\n",v);
     puts("\n[ORDINAMENTO]");
-	qsort(partite, n, sizeof(*partite), cmp_parole);
-	stampa_partite(partite, n);
-
+	printf("\n[ORDINAMENTO]\n");
+    stampa_righe_ordinate(partite, n);
+    free(partite);
+    fclose(f);
 }
 
 
@@ -208,9 +209,34 @@ int vittorie_x(struct partita *partite, int n){
     return vittorie;
 }
 
-int cmp_parole(const void *p1, const void *p2)
+int confronto(const void *p1, const void *p2)
 {
-	const char *u1 = p1;
-	const char *u2 = p2;
-	return strcmp(u1, u2);
+    const char **s1 = p1, **s2 = p2;
+    return strcmp(*s1, *s2);
+}
+
+void stampa_righe_ordinate(struct partita *partite, int n)
+{
+    char **righe;
+    int i, j, tot;
+
+    // crea un vettore di puntatori a stringhe per l'ordinamento
+    righe = malloc(3 * n * sizeof(*righe));
+    tot = 0;
+    // riempie il vettore di stringhe
+    for (i = 0; i < n; ++i) {
+        for (j = 0; j < 3; ++j) {
+            // con strdup si crea spazio in memoria per la stringa
+            righe[tot] = (char *)(&(partite[i].riga[j]));
+            tot++;
+        }
+    }
+    // ordinamento tramite qsort del vettore di puntatori
+    qsort(righe, tot, sizeof(*righe), confronto);
+    // stampa delle stringhe ordinate
+    for (i = 0; i < tot; ++i) {
+        printf("%s", righe[i]);
+    }
+    // libera la memoria allocata per il vettore
+    free(righe);
 }

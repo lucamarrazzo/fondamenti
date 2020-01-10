@@ -56,6 +56,7 @@ struct cerchio *carica_elenco(FILE *f, int *n){
 //FUNZIONE STAMPA CONTENUTO FILE
 void stampa_cerchi(struct cerchio *elenco,int n){
     int i;
+
     for(i=0;i<n;i++){
         printf("%s %d %d %d\n", elenco[i].nome, elenco[i].x, elenco[i].y, elenco[i].r);
     }
@@ -138,4 +139,7 @@ int main(int argc, const char *argv[]){
     stampa_cerchi(elenco, n);
     printf("\n[RELAZIONI]");
     stampa_relazioni(elenco, n);
+
+    free(f);
+    fclose(f);
 }
