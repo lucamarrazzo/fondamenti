@@ -55,43 +55,44 @@ struct partita *leggi_file(FILE *f, int *n){
 }
 
 void stampa_partite(struct partita *partite, int n){
-    int i;
-    for(i=0;i<n;i++){
-        printf("%50s %50s %d %d-%d %d-%d %d-%d %d-%d %d-%d",
-        partite[i].gioc1, partite[i].gioc2, partite[i].max_set,
-        partite[i].punteggio[0][0], partite[i].punteggio[0][1],
-        partite[i].punteggio[1][0], partite[i].punteggio[1][1],
-        partite[i].punteggio[2][0], partite[i].punteggio[2][1],
-        partite[i].punteggio[3][0], partite[i].punteggio[3][1],
-        partite[i].punteggio[4][0], partite[i].punteggio[4][1]);
-    }
+
+
+        printf("[numero di set giocati]\n %d",partite->nset);
+
 }
 
 int giochi_in_partita(struct partita *partite){
     int i, giochi=0;
     for(i=0;i<partite->nset;i++){
-        giochi+=partite->punteggio[i][0]+partite->punteggio[i][1];
+        giochi+=(partite->punteggio[i][0] + partite->punteggio[i][1]);
     }
     return giochi;
 }
 
-int partita_max_giochi(struct partita *partite, int n, int *max){
-    int i,giochi,id=0;
+int indice_partita_max_giochi(struct partita *partite, int n, int *max){
+    int i,giochi;
+    int id=0;
+
     *max=giochi_in_partita(partite);
-    for(i=0;i<n;i++){
+    for(i=1;i<n;i++){
         giochi=giochi_in_partita(partite + i);
         if(giochi>*max){
-            *max=giochi;
             id=i;
+            *max=giochi;
+
         }
     }
 
     return id;
 }
 
+
+
+
+
 int main(int argc, const char *argv[]){
     FILE *f;
-    int max,n,indice;
+    int max, n, indice;
     struct partita *partite;
 
     if(argc<2){
@@ -105,9 +106,9 @@ int main(int argc, const char *argv[]){
     }
 
     partite=leggi_file(f,&n);
-    indice=partita_max_giochi(partite,n, &max);
-    printf("\n [PARTITE]\n");
-    //stampa_partite(partite, n);
-    printf("\n [MAX-GIOCHI]\n %d\n",indice);
+    indice=indice_partita_max_giochi(partite, n, &max);
+
+    stampa_partite(partite, n);
+    printf("\n [MAX-GIOCHI]\n %50s %50s %d\n", partite[indice].gioc1, partite[indice].gioc2, max);
 
 }
