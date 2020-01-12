@@ -22,7 +22,14 @@ int durata(h1, m1, h2, m2){
     return min2-min1;
 }
 
-int calcola_tariffa(int tempo);
+int calcola_tariffa(int tempo){
+
+    if(tempo<=20)return 3.5;
+    if(tempo<=30)return 4.0;
+    if(tempo<=45)return 4.5;
+    if(tempo<=60)return 5.5;
+    return 7.0;
+}
 
 struct ingresso *leggi_file(FILE *f,int *n){
     int h1, m1, h2, m2;
@@ -40,6 +47,7 @@ struct ingresso *leggi_file(FILE *f,int *n){
         &elenco[*n].nbadge,&h1,&m1,&h2,&m2);
 
         elenco[*n].permanenza=durata(h1, m1, h2, m2);
+        elenco[*n].prezzo=calcola_tariffa(elenco[*n].permanenza);
         (*n)++;
 
         if((*n)>=dim){
@@ -49,11 +57,66 @@ struct ingresso *leggi_file(FILE *f,int *n){
             elenco=redim_elenco;
         }
     }
-
+    elenco=realloc(elenco, (*n) * sizeof(*elenco));
+    return elenco;
 
 }
 
+void stampa_ultimi_inverso(struct ingresso *elenco, int n, int n_da_stampare){
+    int i;
+
+    if(n<n_da_stampare){
+        n_da_stampare=n;
+    }
+    for(i=0;i<n_da_stampare;i++){
+        printf("%d\n",elenco[n-i-1].nbadge);
+    }
+}
+void calcola_incassi_mensili(struct ingresso *elenco, int n, double*incassi){
+    int i;
+
+    for(i=0;i<n;i++){
+        (incassi[elenco[i].data.mese-1]+=elenco[i].prezzo);
+    }
+
+}
+
+double incassi_mensili(struct ingresso *elenco, int n){
+    double incasso_mensile[12] = { 0.0 };
+    double tot;
+    int i;
+
+    for(i=0;i<n;i++){
+        printf(" %.2lf\n", calcola_incassi_mensili(elenco, n, incasso_mensile)  );
+    }
+}
+
+
+
 
 int main(int argc,const char *argv[]){
+    FILE *f;
+    int n;
+    int n_da_stampare=10;
+    struct ingresso *elenco;
+
+    if(argc<2){
+        puts("Nessun file specificato da linea di comando\n");
+        return 1;
+    }
+    f=fopen(argv[1],"r");
+    if(f==NULL){
+        fprintf(stderr,"Errore nella lettura del file\n");
+        return 1;
+    }
+
+    elenco=leggi_file(f, &n);
+
+    printf("\n [INGRESSI]\n %d\n", n);
+    printf("\n [INVERSIONE]\n");
+    stampa_ultimi_inverso(elenco, n,  n_da_stampare);
+
+    printf("\n [INCASSO-MENSILE]\n");
+    stampa_incassi_mensili(elenco, n);
 
 }
