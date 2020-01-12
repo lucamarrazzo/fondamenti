@@ -4,7 +4,7 @@
 #include <math.h>
 
 #define MESI_X_ANNO (12)
-
+#define GIORNI_X_MESE (31)
 
 char *NOMI_MESI[] = {
     "Gennaio", "Febbraio", "Marzo",
@@ -111,6 +111,53 @@ double incasso_totale(struct ingresso *elenco, int n){
     return tot;
 }
 
+int calcola_mese_max_ingressi(struct ingresso *elenco, int n){
+    int i;
+    int ingressi[MESI_X_ANNO]={0};
+    int max,mese_max;
+
+    for(i=0;i<n;i++){
+        ingressi[elenco[i].data.mese - 1]++;
+    }
+     for (i = 0; i < MESI_X_ANNO; i++) {
+        if (ingressi[i] > max) {
+            max = ingressi[i];
+            mese_max = i;
+        }
+
+    }
+    return mese_max;
+}
+struct data calcola_giorno_max_ingressi(struct ingresso *elenco, int size)
+{
+    int i, g, m;
+    /* per registrare gli ingressi di tutti i giorni dell'anno
+     * per semplicita` e generalita` considero tutti e 12 i mesi */
+    int ingressi[MESI_X_ANNO][GIORNI_X_MESE] = { {0} };
+    int max = 0;
+    int g_max, m_max;   /* indici del giorno e mese di massimo ingresso */
+    struct data data;
+
+    for (i = 0; i < size; i++) {
+        data = elenco[i].data;
+        ingressi[data.mese - 1][data.giorno - 1]++;
+    }
+
+    max = 0;
+    for (m = 0; m < MESI_X_ANNO; m++) {
+        for (g = 0; g < GIORNI_X_MESE; g++) {
+            if (ingressi[m][g] > max) {
+                max = ingressi[m][g];
+                m_max = m;
+                g_max = g;
+            }
+        }
+    }
+    data.anno = elenco[0].data.anno;   /* tutte le date dello stesso anno */
+    data.mese = m_max + 1;
+    data.giorno = g_max + 1;
+    return data;
+}
 
 
 
@@ -120,6 +167,7 @@ int main(int argc,const char *argv[]){
     int n;
     int n_da_stampare=10;
     double tot;
+    int mese_max;
     struct ingresso *elenco;
 
     if(argc<2){
@@ -135,12 +183,15 @@ int main(int argc,const char *argv[]){
     elenco=leggi_file(f, &n);
 
     tot=incasso_totale(elenco, n);
+    mese_max=calcola_mese_max_ingressi(elenco, n);
     printf("[INGRESSI]\n %d\n", n);
     printf("\n[INVERSIONE]\n");
     stampa_ultimi_inverso(elenco, n,  n_da_stampare);
     printf("\n[INCASSO_MENSILE]\n");
     stampa_incassi_mensili(elenco, n);
     printf("\n[INCASSO_TOTALE]\n %.2lf\n", tot);
-
-
+    printf("\n[MESE_MAX_INGRESSI]\n");
+    printf("%s\n", NOMI_MESI[mese_max]);
+    printf("\n[GIORNO_MAX_INGRESSI]\n");
+    printf("%02d/%02d/%02d\n", calcola_giorno_max_ingressi(elenco, n));
 }
