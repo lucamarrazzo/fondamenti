@@ -3,6 +3,15 @@
 #include <string.h>
 #include <math.h>
 
+#define MESI_X_ANNO (12)
+
+
+char *NOMI_MESI[] = {
+    "Gennaio", "Febbraio", "Marzo",
+    "Aprile", "Maggio", "Giugno",
+    "Luglio", "Agosto", "Settembre",
+    "Ottobre", "Novembre", "Dicembre"
+};
 
 struct data{
     int giorno, mese, anno;
@@ -82,15 +91,15 @@ void calcola_incassi_mensili(struct ingresso *elenco, int n, double *incassi){
 }
 
 void stampa_incassi_mensili(struct ingresso *elenco, int n){
-    double incasso_mensile[12] = { 0.0 };
+    double incasso_mensile[MESI_X_ANNO] = { 0.0 };
     calcola_incassi_mensili(elenco, n, incasso_mensile);
 
-    printf("Aprile %.2lf\n",incasso_mensile[3]);
-    printf("Maggio %.2lf\n",incasso_mensile[4]);
-    printf("Giugno %.2lf\n",incasso_mensile[5]);
-    printf("Luglio %.2lf\n",incasso_mensile[6]);
-    printf("Agosto %.2lf\n",incasso_mensile[7]);
-    printf("Settembre %.2lf\n",incasso_mensile[8]);
+    printf("%s %.2lf\n",NOMI_MESI[3], incasso_mensile[3]);
+    printf("%s %.2lf\n",NOMI_MESI[4],incasso_mensile[4]);
+    printf("%s %.2lf\n",NOMI_MESI[5],incasso_mensile[5]);
+    printf("%s %.2lf\n",NOMI_MESI[6],incasso_mensile[6]);
+    printf("%s %.2lf\n",NOMI_MESI[7],incasso_mensile[7]);
+    printf("%s %.2lf\n",NOMI_MESI[8],incasso_mensile[8]);
 }
 
 double incasso_totale(struct ingresso *elenco, int n){
@@ -101,6 +110,8 @@ double incasso_totale(struct ingresso *elenco, int n){
     }
     return tot;
 }
+
+
 
 
 
@@ -125,15 +136,11 @@ int main(int argc,const char *argv[]){
 
     tot=incasso_totale(elenco, n);
     printf("[INGRESSI]\n %d\n", n);
-    printf("[INVERSIONE]\n");
+    printf("\n[INVERSIONE]\n");
     stampa_ultimi_inverso(elenco, n,  n_da_stampare);
-    printf("[INCASSO_MENSILE]\n");
+    printf("\n[INCASSO_MENSILE]\n");
     stampa_incassi_mensili(elenco, n);
-    printf("[INCASSO_TOTALE]\n %.2lf\n", tot);
+    printf("\n[INCASSO_TOTALE]\n %.2lf\n", tot);
 
 
-
-
-    free(f);
-    fclose(f);
 }
