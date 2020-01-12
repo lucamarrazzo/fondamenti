@@ -35,7 +35,7 @@ struct ingresso *leggi_file(FILE *f,int *n){
     int h1, m1, h2, m2;
     char buf[1000];
     struct ingresso *elenco,*redim_elenco;
-    int dim=4;
+    int dim=8;
 
     (*n)=0;
     elenco=malloc(dim * sizeof(*elenco));
@@ -93,6 +93,14 @@ void stampa_incassi_mensili(struct ingresso *elenco, int n){
     printf("Settembre %.2lf\n",incasso_mensile[8]);
 }
 
+double incasso_totale(struct ingresso *elenco, int n){
+    int i;
+    double tot;
+    for(i=0;i<n;i++){
+        tot+=elenco[i].prezzo;
+    }
+    return tot;
+}
 
 
 
@@ -100,6 +108,7 @@ int main(int argc,const char *argv[]){
     FILE *f;
     int n;
     int n_da_stampare=10;
+    double tot;
     struct ingresso *elenco;
 
     if(argc<2){
@@ -114,11 +123,17 @@ int main(int argc,const char *argv[]){
 
     elenco=leggi_file(f, &n);
 
-    printf("\n [INGRESSI]\n %d\n", n);
-    printf("\n [INVERSIONE]\n");
+    tot=incasso_totale(elenco, n);
+    printf("[INGRESSI]\n %d\n", n);
+    printf("[INVERSIONE]\n");
     stampa_ultimi_inverso(elenco, n,  n_da_stampare);
-
-    printf("\n [INCASSO-MENSILE]\n");
+    printf("[INCASSO_MENSILE]\n");
     stampa_incassi_mensili(elenco, n);
+    printf("[INCASSO_TOTALE]\n %.2lf\n", tot);
 
+
+
+
+    free(f);
+    fclose(f);
 }
