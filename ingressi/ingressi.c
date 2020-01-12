@@ -12,7 +12,7 @@ struct ingresso{
     struct data data;
     int nbadge;
     int permanenza;
-    int prezzo;
+    double prezzo;
 
 };
 
@@ -22,7 +22,7 @@ int durata(h1, m1, h2, m2){
     return min2-min1;
 }
 
-int calcola_tariffa(int tempo){
+double calcola_tariffa(int tempo){
 
     if(tempo<=20)return 3.5;
     if(tempo<=30)return 4.0;
@@ -72,23 +72,25 @@ void stampa_ultimi_inverso(struct ingresso *elenco, int n, int n_da_stampare){
         printf("%d\n",elenco[n-i-1].nbadge);
     }
 }
-void calcola_incassi_mensili(struct ingresso *elenco, int n, double*incassi){
+void calcola_incassi_mensili(struct ingresso *elenco, int n, double *incassi){
     int i;
 
     for(i=0;i<n;i++){
-        (incassi[elenco[i].data.mese-1]+=elenco[i].prezzo);
+        incassi[elenco[i].data.mese-1]+=elenco[i].prezzo;
     }
 
 }
 
-double incassi_mensili(struct ingresso *elenco, int n){
+void stampa_incassi_mensili(struct ingresso *elenco, int n){
     double incasso_mensile[12] = { 0.0 };
-    double tot;
-    int i;
+    calcola_incassi_mensili(elenco, n, incasso_mensile);
 
-    for(i=0;i<n;i++){
-        printf(" %.2lf\n", calcola_incassi_mensili(elenco, n, incasso_mensile)  );
-    }
+    printf("Aprile %.2lf\n",incasso_mensile[3]);
+    printf("Maggio %.2lf\n",incasso_mensile[4]);
+    printf("Giugno %.2lf\n",incasso_mensile[5]);
+    printf("Luglio %.2lf\n",incasso_mensile[6]);
+    printf("Agosto %.2lf\n",incasso_mensile[7]);
+    printf("Settembre %.2lf\n",incasso_mensile[8]);
 }
 
 
