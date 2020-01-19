@@ -169,6 +169,7 @@ int main(int argc,const char *argv[]){
     double tot;
     int mese_max;
     struct ingresso *elenco;
+    struct data data;
 
     if(argc<2){
         puts("Nessun file specificato da linea di comando\n");
@@ -184,6 +185,7 @@ int main(int argc,const char *argv[]){
 
     tot=incasso_totale(elenco, n);
     mese_max=calcola_mese_max_ingressi(elenco, n);
+    data=calcola_giorno_max_ingressi(elenco, n);
     printf("[INGRESSI]\n %d\n", n);
     printf("\n[INVERSIONE]\n");
     stampa_ultimi_inverso(elenco, n,  n_da_stampare);
@@ -192,6 +194,7 @@ int main(int argc,const char *argv[]){
     printf("\n[INCASSO_TOTALE]\n %.2lf\n", tot);
     printf("\n[MESE_MAX_INGRESSI]\n");
     printf("%s\n", NOMI_MESI[mese_max]);
+
     printf("\n[GIORNO_MAX_INGRESSI]\n");
-    printf("%02d/%02d/%02d\n", calcola_giorno_max_ingressi(elenco, n));
+    printf(" %02d/%02d/%02d\n", data.giorno, data.mese, data.anno );
 }
