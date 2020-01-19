@@ -134,12 +134,12 @@ int main(int argc, const char *argv[]){
     elenco=carica_elenco(f, &n);
     printf("\n [CERCHI]\n");
     stampa_cerchi(elenco, n);
-    printf("\n[ORDINAMENTO]");
+    printf("\n[ORDINAMENTO]\n");
 	qsort(elenco, n, sizeof(*elenco), cmp_cerchi);
     stampa_cerchi(elenco, n);
-    printf("\n[RELAZIONI]");
+    printf("\n[RELAZIONI]\n");
     stampa_relazioni(elenco, n);
 
-    free(f);
+
     fclose(f);
 }

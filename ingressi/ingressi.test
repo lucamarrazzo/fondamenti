@@ -1,0 +1,114 @@
+#####################################
+[.TEST]
+Esempio del testo
+
+[.ARGS]
+.FILE
+
+[.FILE]
+01/05/2018 500 20:30 20:50
+01/05/2018 510 20:30 21:00
+01/05/2018 600 20:30 21:15
+01/06/2018 610 20:30 21:30
+01/07/2018 610 20:30 21:50
+
+[INVERSIONE]
+610
+610
+600
+510
+500
+
+[INGRESSI]
+5
+
+[INCASSO_MENSILE]
+Aprile 0.00
+Maggio 12.00
+Giugno 5.50
+Luglio 7.00
+Agosto 0.00
+Settembre 0.00
+
+[INCASSO_TOTALE]
+24.50
+
+[MESE_MAX_INGRESSI]
+Maggio
+
+[GIORNO_MAX_INGRESSI]
+01/05/2018
+
+#####################################
+[.TEST]
+Pochi dati
+
+[.ARGS]
+ingressiPiccolo.txt
+
+[INVERSIONE]
+6
+5
+4
+3
+2
+1
+
+[INGRESSI]
+6
+
+[INCASSO_MENSILE]
+Aprile 3.50
+Maggio 4.00
+Giugno 4.50
+Luglio 5.50
+Agosto 7.00
+Settembre 7.00
+
+[INCASSO_TOTALE]
+31.50
+
+[MESE_MAX_INGRESSI]
+Aprile
+
+[GIORNO_MAX_INGRESSI]
+01/04/2012
+
+#####################################
+[.TEST]
+Tanti dati
+
+[INVERSIONE]
+70
+69
+68
+67
+66
+65
+64
+63
+62
+61
+
+[.ARGS]
+ingressiGrande.txt
+
+[INGRESSI]
+10279
+
+[INCASSO_MENSILE]
+Aprile 5975.00
+Maggio 7496.50
+Giugno 8611.50
+Luglio 14113.50
+Agosto 16417.00
+Settembre 8611.50
+
+[INCASSO_TOTALE]
+61225.00
+
+[MESE_MAX_INGRESSI]
+Agosto
+
+[GIORNO_MAX_INGRESSI]
+25/08/2012
