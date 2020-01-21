@@ -41,6 +41,7 @@ int main(int argc, const char *argv[]){
     FILE *f;
     int n, n_da_stampare=10;
     struct ingresso *elenco;
+    int mese_max;
 
     if(argc<2){
         puts("Nessun file specificato da linea di comando.\n");
@@ -52,6 +53,7 @@ int main(int argc, const char *argv[]){
     }
 
     elenco=leggi_file(f,&n);
+    mese_max=calcola_mese_max_ingressi(elenco, n);
 
     printf("\n [INGRESSI] \n %d\n",n);
     printf("\n [INVERSIONE] \n");
@@ -59,6 +61,7 @@ int main(int argc, const char *argv[]){
     printf("\n [INCASSO_MENSILE] \n");
     stampa_incasso_mensile(elenco, n);
     printf("\n [INCASSO_TOTALE] \n %.2lf \n", incasso_totale(elenco, n));
+    printf("\n [MESE_MAX_INGRESSI] \n %s\n",NOMI_MESI[mese_max]);
 
     return 0;
 }
@@ -154,5 +157,19 @@ double incasso_totale(struct ingresso *elenco, int n){
 }
 
 int calcola_mese_max_ingressi(struct ingresso *elenco, int n){
-    
+    int i;
+    int ingressi[MESI_X_ANNO]={0};
+    int max,mese_max;
+
+    for(i=0;i<n;i++){                         //calcola l'istogramma degli ingressi nell'anno
+        ingressi[elenco[i].data.mese - 1]++;  //conteggio numeri ingressi in un determinato mese e carico il vettore ingressi
+    }
+    for(i=0;i<MESI_X_ANNO;i++){               //controllo per i 12 mesi
+        if(ingressi[i]>max){                  //se il valore di ingressi in [i] e' maggiore di max carico max con quel valore
+            max=ingressi[i];
+            mese_max=i;                       //infine carico il valore di i in mese_max
+        }
+    }
+    return mese_max;                          //mese max mi ritorna un valore da 0 a 11 che mi indica il mese con piu accessi
 }
+
